@@ -79,23 +79,30 @@ COND_MAX_POLE_COUNT = 10
 COND_MAX_LINE_COUNT = 11
 
 # 학습 대상 컬럼들
-CONS_COLS = [
-    'CONS_ID', 'TOTAL_CONS_COST', 'CONS_TYPE_CD', 'LAST_MOD_DATE', 
-    'LAST_MOD_EID', 'OFFICE_NAME', 'CONT_CAP', 'ACC_TYPE_NAME'
-]
-POLE_COLS = [
-    'CONS_ID', 'COMP_ID',
-    'POLE_SHAPE_CD', 'POLE_TYPE_CD', 'POLE_SPEC_CD',
-    'COORDINATE'
-]
-LINE_COLS = [
-    'CONS_ID', 'COMP_ID', 'FROM_COMP_ID',
-    'WIRING_SCHEME', 'LINE_TYPE_CD', 'LINE_SPEC_CD', 'LINE_PHASE_CD',
-    'SPAN', 'NEUTRAL_TYPE_CD', 'NEUTRAL_SPEC_CD', 'COORDINATE'
-]
-SL_COLS = [
-    'CONS_ID', 'COMP_ID', 'SL_TYPE_CD', 'SL_SPEC_CD', 'SPAN', 'SUPERVISOR'
-]
+MODELING_COLS = {
+    'CONS': [
+        'CONS_ID', 'TOTAL_CONS_COST', 'CONS_TYPE_CD', 'LAST_MOD_DATE', 
+        'LAST_MOD_EID', 'OFFICE_NAME', 'CONT_CAP', 'ACC_TYPE_NAME'
+    ],
+    'POLE': [
+        'CONS_ID', 'COMP_ID',
+        'POLE_SHAPE_CD', 'POLE_TYPE_CD', 'POLE_SPEC_CD',
+        'COORDINATE'    
+    ],
+    'LINE': [
+        'CONS_ID', 'COMP_ID', 'FROM_COMP_ID',
+        'WIRING_SCHEME', 'LINE_TYPE_CD', 'LINE_SPEC_CD', 'LINE_PHASE_CD',
+        'SPAN', 'NEUTRAL_TYPE_CD', 'NEUTRAL_SPEC_CD', 'COORDINATE'
+    ], 
+    'SL': [
+        'CONS_ID', 'COMP_ID', 'SL_TYPE_CD', 'SL_SPEC_CD', 'SPAN', 'SUPERVISOR'
+    ]
+}
+
+# Online/Batch 테스트 공사번호
+# 전주와 전선은 모두 1~10개 사이이고, 인입선은 제약이 없기 때문에,
+# 마지막 데이터는 인입선이 없는 데이터를 샘플로 함.
+CHECK_CONS_IDS = ['477420204194', '474620226651', '475920223725']
 
 
 # 학습에 사용할 컬럼명(한글명을 영문명으로 변환)
