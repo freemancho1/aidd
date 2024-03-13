@@ -17,7 +17,7 @@ def get_online_sample(data):
         df = data[key]
         df = df[df.CONS_ID.isin(cfg.CHECK_CONS_IDS)]
         if key == 'CONS':
-            df.drop('TOTAL_CONS_COST', inplace=True)
+            df.drop(columns=('TOTAL_CONS_COST'), inplace=True)
         jsons[key] = df[cfg.MODELING_COLS[key]].to_json(orient='records')
         
     return jsons
