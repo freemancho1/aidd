@@ -6,6 +6,11 @@ LOG = {
     'NONE': '',
     'BATCH_MAIN': '배치 데이터 전처리 및 모델링',
     'GET_PROVIDE_DATA': '제공받은 데이터 불러오기',
+    'BATCH_MERGE': '전처리를 위해 제공받은 데이터 병합',
+    'BATCH_MERGE details': {
+        'BEFORE_DEL_SIZE': '공사번호별 데이터 병합 결과',
+        'AFTER_DEL_SIZE': '전주/전선 10개 이상 데이터 삭제 후 결과',  
+    },
     'BATCH_PREPROCESSING': '배치 데이터 전처리',
     
     'PP_CONS': '공사비 데이터 전처리',
