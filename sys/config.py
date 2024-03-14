@@ -25,6 +25,18 @@ FILE_NAME = {
         'LINE': 'LINE_DATA.xlsx',
         'SL': 'SL_DATA.xlsx',
     },
+    'MB': {                                 # Merge Batch
+        'CONS': 'STEP01_MB_CONS',
+        'POLE': 'STEP01_MB_POLE',
+        'LINE': 'STEP01_MB_LINE',
+        'SL': 'STEP01_MB_SL',  
+    },
+    'MO': {                                 # Merge Online
+        'CONS': 'STEP01_MO_CONS',
+        'POLE': 'STEP01_MO_POLE',
+        'LINE': 'STEP01_MO_LINE',
+        'SL': 'STEP01_MO_SL',  
+    },
     'PP': {                                 # Pre-Processing(전처리) 데이터
         'CONS': 'STEP01_PP_CONS',           # 공사비 전처리(1차)
         'CONS_FC': 'STEP02_PP_CONS_FC',     # 공사비 전처리(2차) - 설비 갯 수
@@ -32,6 +44,9 @@ FILE_NAME = {
         'LINE': 'STEP04_PP_LINE',           # 전선 전처리(공사비별 병합 포함)
         'SEQ': 'STEP05_PP_SEQ',             # 전주/전선 경로지정
         'SL': 'STEP06_PP_SL',               # 인입선 전처리
+    },
+    'PP_MEM': {                             # 전처리에 저장되는 메모리 정보
+        'OFFICE_LIST': 'MEM01_OFFICE_LIST.pkl',
     },
     'SCALING': {
         'X': 'STEP10_X',
@@ -103,7 +118,6 @@ MODELING_COLS = {
 # 전주와 전선은 모두 1~10개 사이이고, 인입선은 제약이 없기 때문에,
 # 마지막 데이터는 인입선이 없는 데이터를 샘플로 함.
 CHECK_CONS_IDS = ['477420204194', '474620226651', '475920223725']
-
 
 # 학습에 사용할 컬럼명(한글명을 영문명으로 변환)
 COMMON_COLUMNS = {

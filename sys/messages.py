@@ -6,15 +6,18 @@ LOG = {
     'NONE': '',
     'BATCH_MAIN': '배치 데이터 전처리 및 모델링',
     'GET_PROVIDE_DATA': '제공받은 데이터 불러오기',
+    'GET_MERGED_DATA': '모델 학습용 데이터 불러오기',
     'BATCH_MERGE': '전처리를 위해 제공받은 데이터 병합',
     'BATCH_MERGE details': {
         'BEFORE_DEL_SIZE': '공사번호별 데이터 병합 결과',
         'AFTER_DEL_SIZE': '전주/전선 10개 이상 데이터 삭제 후 결과',  
+        'BATCH_SAVE_DATA': '여기까지 데이터 저장(배치작업에서만 수행)',
     },
-    'BATCH_PREPROCESSING': '배치 데이터 전처리',
+    'PROPROCESSING': '데이터 전처리',
     
     'PP_CONS': '공사비 데이터 전처리',
     'PP_CONS details': {
+        'SOURCE_SIZE': '공사비+설비갯수 원본 데이터 크기',
         'RESULT': '공사비 데이터 1차 전처리 결과(데이터 크기)',
         'COLUMNS': '공사비 데이터 1차 전처리 후 컬럼들',
     },
@@ -71,7 +74,11 @@ ERRORS = {
     'SAVE_DATA_ERR': '데이터를 저장하는 과정에서 에러가 발생했습니다.',
     'SAVE_DATA_ERR2': '데이터를 저장하는 과정(2)에서 에러가 발생했습니다.',
     'GET_PROVIDED_DATA_ERR': '제공받은 데이터를 불러오는 과정에서 에러가 발생했습니다. 데이터 타입',
+    'GET_MERGED_DATA_ERR': '학습용 데이터를 읽어오는 과정에서 에러가 발생했습니다.',
     'NO_PROVIDE_DATA': '배치 데이터 전처리 과정에 한전에서 제공받은 데이터가 없습니다.',
+    'NO_MERGED_DATA': '취합된 데이터를 제공하지 않았습니다',
     'BATCH_PREPROCESSING_ERR': '배치 데이터 전처리 과정에서 에러가 발생했습니다.',
     'BATCH_PREPROCESSING_SERR': '배치 데이터 전처리 과정에서 시스템 에러가 발생했습니다.',
+    'PREPROCESSING_ERR': '배치 데이터 전처리 과정에서 에러가 발생했습니다.',
+    'PREPROCESSING_SERR': '배치 데이터 전처리 과정에서 시스템 에러가 발생했습니다.',
 }

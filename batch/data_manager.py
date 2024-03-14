@@ -1,4 +1,5 @@
 import os
+import pickle
 import pandas as pd
 from datetime import datetime
 
@@ -77,3 +78,38 @@ def get_provide_data():
     finally:
         logs.stop()
     return provide_data
+
+def get_merged_data(pmode='MB'):
+    logs = Logs('GET_MERGED_DATA')
+    merged_data = {}
+    try:
+        for key in cfg.DATA_TYPE:
+            start_time = datetime.now()
+            mdata = read_data(pmode, key)
+            merged_data[key] = mdata
+            value = f'읽은 데이터: {key}, 데이터 크기: {mdata.shape}, ' \
+                    f'처리시간: {datetime.now()-start_time}'
+            logs.mid(value=value)
+    except AiddException as ae:
+        raise AiddException('GET_MERGED_DATA_ERR', key, ae)
+    except Exception as e:
+        raise AiddException('GET_MERGED_DATA_ERR', super_err=e)
+    finally:
+        logs.stop()
+    return merged_data
+
+def _get_pickle_path(pmode=None, fcode=None):
+    file_name = cfg.FILE_NAME[pmode][fcode]
+    path_list = [cfg.BASE_DATA_PATH, 'pkl', file_name]
+    return os.path.join(*path_list)
+    
+def load_pickle(pmode=None, fcode=None):
+    file_path = _get_pickle_path(pmode, fcode)
+    with open(file_path, 'rb') as f:
+        loaded_data = pickle.load(f)
+    return loaded_data
+
+def save_pickle(pkl=None, pmode=None, fcode=None):
+    file_path = _get_pickle_path(pmode, fcode)
+    with open(file_path, 'wb') as f:
+        pickle.dump(pkl, f)
