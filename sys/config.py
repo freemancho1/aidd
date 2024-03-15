@@ -47,6 +47,7 @@ FILE_NAME = {
     },
     'PP_MEM': {                             # 전처리에 저장되는 메모리 정보
         'OFFICE_LIST': 'MEM01_OFFICE_LIST.pkl',
+        'POLE_ONE_HOT_COLS': 'MEM02_POLE_ONE_HOT_COLS.pkl',
     },
     'SCALING': {
         'X': 'STEP10_X',
@@ -95,23 +96,38 @@ COND_MAX_LINE_COUNT = 11
 
 # 학습 대상 컬럼들
 MODELING_COLS = {
-    'CONS': [
-        'CONS_ID', 'TOTAL_CONS_COST', 'CONS_TYPE_CD', 'LAST_MOD_DATE', 
-        'LAST_MOD_EID', 'OFFICE_NAME', 'CONT_CAP', 'ACC_TYPE_NAME'
-    ],
-    'POLE': [
-        'CONS_ID', 'COMP_ID',
-        'POLE_SHAPE_CD', 'POLE_TYPE_CD', 'POLE_SPEC_CD',
-        'COORDINATE'    
-    ],
-    'LINE': [
-        'CONS_ID', 'COMP_ID', 'FROM_COMP_ID',
-        'WIRING_SCHEME', 'LINE_TYPE_CD', 'LINE_SPEC_CD', 'LINE_PHASE_CD',
-        'SPAN', 'NEUTRAL_TYPE_CD', 'NEUTRAL_SPEC_CD', 'COORDINATE'
-    ], 
-    'SL': [
-        'CONS_ID', 'COMP_ID', 'SL_TYPE_CD', 'SL_SPEC_CD', 'SPAN', 'SUPERVISOR'
-    ]
+    'CONS': {
+        'SOURCE_DATA': [
+            'CONS_ID', 'TOTAL_CONS_COST', 'CONS_TYPE_CD', 'LAST_MOD_DATE', 
+            'LAST_MOD_EID', 'OFFICE_NAME', 'CONT_CAP', 'ACC_TYPE_NAME'
+        ],
+        'PP': [
+            'CONS_ID', 'TOTAL_CONS_COST', 'LAST_MOD_DATE', 
+            'LAST_MOD_EID', 'OFFICE_NAME', 
+            'YEAR', 'MONTH', 'DAY', 'DAYOFWEEK', 'DAYOFYEAR', 'YEAR_MONTH',
+            'EID_NUMBER', 'OFFICE_NUMBER',
+            'POLE_CNT', 'LINE_CNT', 'SL_CNT'
+        ],
+    },
+    'POLE': {
+        'SOURCE_DATA': [
+            'CONS_ID', 'COMP_ID',
+            'POLE_SHAPE_CD', 'POLE_TYPE_CD', 'POLE_SPEC_CD',
+            'COORDINATE'    
+        ],
+    },
+    'LINE': {
+        'SOURCE_DATA': [
+            'CONS_ID', 'COMP_ID', 'FROM_COMP_ID',
+            'WIRING_SCHEME', 'LINE_TYPE_CD', 'LINE_SPEC_CD', 'LINE_PHASE_CD',
+            'SPAN', 'NEUTRAL_TYPE_CD', 'NEUTRAL_SPEC_CD', 'COORDINATE'
+        ], 
+    },
+    'SL': {
+        'SOURCE_DATA': [
+            'CONS_ID', 'COMP_ID', 'SL_TYPE_CD', 'SL_SPEC_CD', 'SPAN', 'SUPERVISOR'
+        ],
+    }
 }
 
 # Online/Batch 테스트 공사번호

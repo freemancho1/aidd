@@ -27,10 +27,9 @@ LOG = {
     },
     'PP_POLE': '전주 데이터 전처리',
     'PP_POLE details': {
+        'SOURCE_SIZE': '전주 데이터 원본 데이터 크기',
+        'PP_ONLY': '전주 데이터만 전처리한 결과(데이터 크기)',
         'RESULT': '전주 데이터 전처리 결과(데이터 크기)',
-        'PP_POLE_ONLY': '전주 데이터만 전처리한 결과(데이터 크기)',
-        'PP_POLE_SUM': '전주 데이터 합산 데이터 크기',
-        'PP_POLE_MERGE': '공사비와 전주 데이터 병합한 데이터 크기',
     },
     'PP_LINE': '전선 데이터 전처리',
     'PP_LINE details': {
