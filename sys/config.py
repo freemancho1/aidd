@@ -3,6 +3,8 @@ import os
 
 # 학습에 사용할 데이터 셋 종류
 DATA_SETs = ['CONS', 'POLE', 'LINE', 'SL']
+# 전주 갯 수를 기준으로 데이터 구분(전체, 하나인것, 하나가 아닌것)
+DATA_PC_TYPE = ['ALL', '1', 'N1']
 
 # 데이터 기본 경로
 BASE_PATH = os.path.join(os.path.expanduser('~'), 'projects', 'data', 'aidd')
@@ -11,7 +13,7 @@ FILE_NAMEs = {
     'PROVIDE': {
         'CONS': 'CONS_INFO.xlsx',
         'POLE': 'POLE_DATA.xlsx',
-        'LINE': 'LINE_DATA.xlsx',
+        'LINE': 'LINE_DATA.xlsx', 
         'SL': 'SL_DATA.xlsx',
     },
     'MERGE': {
@@ -23,11 +25,20 @@ FILE_NAMEs = {
             for idx, name in enumerate(DATA_SETs)
     }, 
     'ONLINE': 'STEP06_ONLINE.CSV',  # 전처리된 시험용 최종 데이터
+    'SCALING': {
+        'X': {name: f'STEP07_X_{name}.CSV' for name in DATA_PC_TYPE},
+        'y': {name: f'STEP07_y_{name}.CSV' for name in DATA_PC_TYPE},
+        'TRAIN_X': {name: f'STEP08_TRAIN_X_{name}.CSV' for name in DATA_PC_TYPE},
+        'TEST_X': {name: f'STEP08_TEST_X_{name}.CSV' for name in DATA_PC_TYPE},
+        'TRAIN_y': {name: f'STEP09_TRAIN_y_{name}.CSV' for name in DATA_PC_TYPE},
+        'TEST_y': {name: f'STEP09_TEST_y_{name}.CSV' for name in DATA_PC_TYPE},
+    },
     'DUMP': {
         'OFFICE_LIST': 'MEM01_OFFICE_LIST.pkl',
         'POLE_ONE_HOT_COLS': 'MEM02_POLE_ONE_HOT_COLS.pkl',
         'LINE_ONE_HOT_COLS': 'MEM03_LINE_ONE_HOT_COLS.pkl',
         'SL_ONE_HOT_COLS': 'MEM04_SL_ONE_HOT_COLS.pkl',
+        'SCALER': {name: f'MEM05_SCALER_{name}.pkl' for name in DATA_PC_TYPE},
     },
 }
 
