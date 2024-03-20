@@ -172,14 +172,14 @@ MODELS = {
     'ML': {
         'LIN': LinearRegression(),
         'LASSO': Lasso(),
-        # 'RIDGE': Ridge(),
-        # 'KNR': KNeighborsRegressor(),
-        # 'DTR': DecisionTreeRegressor(),
-        # 'RFR': RandomForestRegressor(n_estimators=200, n_jobs=-1, random_state=SEED),
-        # 'GBR': GradientBoostingRegressor(),
-        # 'EN': ElasticNet(alpha=0.1, l1_ratio=0.5, random_state=SEED),
-        # 'XGR': XGBRegressor(eta=0.01, n_estimators=100, n_jobs=-1),
-        # 'LGBM': 추후 테스트 진행 후 추가 예정
+        'RIDGE': Ridge(),
+        'KNR': KNeighborsRegressor(),
+        'DTR': DecisionTreeRegressor(),
+        'RFR': RandomForestRegressor(n_estimators=200, n_jobs=-1, random_state=SEED),
+        'GBR': GradientBoostingRegressor(),
+        'EN': ElasticNet(alpha=0.1, l1_ratio=0.5, random_state=SEED),
+        'XGR': XGBRegressor(eta=0.01, n_estimators=100, n_jobs=-1),
+        # 'LGBM': None, #추후 테스트 진행 후 추가 예정
     },
 }
 MODELS_KEY = list(MODELS['ML'].keys())
