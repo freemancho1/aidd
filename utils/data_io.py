@@ -66,8 +66,14 @@ def get_merged_data(mode='BATCH', **kwargs):
         msg = f'Data Type: {key}, Size: {df.shape}, pTime: {datetime.now()-s_time}'
         print(msg)
     return df_dict
-    
-    
+
+def get_modeling_data():
+    mdata_dict = {}
+    for key in cfg.DATA_PC_TYPE:
+        mdata_dict[key] = {}
+        for mkey in cfg.DATA_MD_TYPE:
+            mdata_dict[key][mkey] = read_data(f'SCALING,{mkey},{key}')
+    return mdata_dict
 
 if __name__ == '__main__':
     _get_file_path('PROVIDE,SL')

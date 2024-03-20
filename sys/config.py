@@ -5,6 +5,8 @@ import os
 DATA_SETs = ['CONS', 'POLE', 'LINE', 'SL']
 # 전주 갯 수를 기준으로 데이터 구분(전체, 하나인것, 하나가 아닌것)
 DATA_PC_TYPE = ['ALL', '1', 'N1']
+# 모델링 데이터 타입
+DATA_MD_TYPE = ['TRAIN_X', 'TEST_X', 'TRAIN_y', 'TEST_y']
 
 # 데이터 기본 경로
 BASE_PATH = os.path.join(os.path.expanduser('~'), 'projects', 'data', 'aidd')
@@ -38,7 +40,8 @@ FILE_NAMEs = {
         'POLE_ONE_HOT_COLS': 'MEM02_POLE_ONE_HOT_COLS.pkl',
         'LINE_ONE_HOT_COLS': 'MEM03_LINE_ONE_HOT_COLS.pkl',
         'SL_ONE_HOT_COLS': 'MEM04_SL_ONE_HOT_COLS.pkl',
-        'SCALER': {name: f'MEM05_SCALER_{name}.pkl' for name in DATA_PC_TYPE},
+        'LAST_PP_COLS': 'MEM05_LAST_PP_COLS.pkl',
+        'SCALER': {name: f'MEM06_SCALER_{name}.pkl' for name in DATA_PC_TYPE},
     },
 }
 
@@ -61,6 +64,10 @@ CHECK_CONS_IDS = ['477420204194', '474620226651', '475920223725']
 
 # 다양하게 사용될 컬럼들
 COLS = {
+    # 타겟 컬럼
+    'TARGET': 'TOTAL_CONS_COST', 
+    # 예측결과 리턴할 항목 리스트(현재 사용하지 않음)
+    'RETURN': ['CONS_ID', 'TOTAL_CONS_COST'],
     # 영문으로 변경할 컬럼들
     'RENAME': {
         '공사번호': 'CONS_ID',              # Construction ID
@@ -148,4 +155,37 @@ COLS = {
         'NEUTRAL_SPEC_0.0', 'NEUTRAL_SPEC_22.0', 'NEUTRAL_SPEC_32.0', 
         'POLE2_X', 'POLE2_Y',   
     ],
+}
+
+# 학습에 관련된 사항들
+from sklearn.linear_model import Lasso, Ridge, LinearRegression
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.linear_model import ElasticNet
+from xgboost import XGBRegressor
+import lightgbm as lgbm
+
+SEED = 1234
+MODELS = {
+    'ML': {
+        'LIN': LinearRegression(),
+        'LASSO': Lasso(),
+        # 'RIDGE': Ridge(),
+        # 'KNR': KNeighborsRegressor(),
+        # 'DTR': DecisionTreeRegressor(),
+        # 'RFR': RandomForestRegressor(n_estimators=200, n_jobs=-1, random_state=SEED),
+        # 'GBR': GradientBoostingRegressor(),
+        # 'EN': ElasticNet(alpha=0.1, l1_ratio=0.5, random_state=SEED),
+        # 'XGR': XGBRegressor(eta=0.01, n_estimators=100, n_jobs=-1),
+        # 'LGBM': 추후 테스트 진행 후 추가 예정
+    },
+}
+MODELS_KEY = list(MODELS['ML'].keys())
+FILE_NAMEs['DUMP']['MODELS'] = {
+    pc_type: {
+        model_name: f'MEM_07_MODEL_{pc_type}_{model_name}.pkl' \
+            for model_name in MODELS_KEY+['BEST']
+    } for pc_type in DATA_PC_TYPE
 }
