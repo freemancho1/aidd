@@ -107,7 +107,7 @@ COLS = {
             ],
             'PP': [
                 'CONS_ID', 'TOTAL_CONS_COST', 'LAST_MOD_DATE', 
-                'LAST_MOD_EID', 'OFFICE_NAME', 
+                'LAST_MOD_EID', 'OFFICE_NAME', 'CONT_CAP',
                 'YEAR', 'MONTH', 'DAY', 'DAYOFWEEK', 'DAYOFYEAR', 'YEAR_MONTH',
                 'EID_NUMBER', 'OFFICE_NUMBER',
             ],
