@@ -42,6 +42,7 @@ FILE_NAMEs = {
         'SL_ONE_HOT_COLS': 'MEM04_SL_ONE_HOT_COLS.pkl',
         'LAST_PP_COLS': 'MEM05_LAST_PP_COLS.pkl',
         'SCALER': {name: f'MEM06_SCALER_{name}.pkl' for name in DATA_PC_TYPE},
+        'MODELING_HISTORY': 'MEM08_MODELING_HISTORY.pkl',
     },
 }
 
@@ -171,13 +172,22 @@ SEED = 1234
 MODELS = {
     'ML': {
         'LIN': LinearRegression(),
-        'LASSO': Lasso(),
+        'LASSO': Lasso(max_iter=3000),
         'RIDGE': Ridge(),
         'KNR': KNeighborsRegressor(),
         'DTR': DecisionTreeRegressor(),
-        'RFR': RandomForestRegressor(n_estimators=200, n_jobs=-1, random_state=SEED),
+        'RFR': RandomForestRegressor(
+            n_estimators=200, 
+            n_jobs=-1, 
+            random_state=SEED
+        ),
         'GBR': GradientBoostingRegressor(),
-        'EN': ElasticNet(alpha=0.1, l1_ratio=0.5, random_state=SEED),
+        'EN': ElasticNet(
+            alpha=0.1, 
+            max_iter=1000,
+            l1_ratio=0.5, 
+            random_state=SEED
+        ),
         'XGR': XGBRegressor(eta=0.01, n_estimators=100, n_jobs=-1),
         # 'LGBM': None, #추후 테스트 진행 후 추가 예정
     },
