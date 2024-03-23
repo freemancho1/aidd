@@ -26,6 +26,6 @@ def check_argvs():
     
     args = parser.parse_args()
     # 아래 강제로 설정된 두 줄은 나중에 제거해야함
-    args.modeling = True
-    args.serving = True
+    # args.modeling = True
+    # args.serving = True
     return args

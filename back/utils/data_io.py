@@ -50,12 +50,12 @@ def get_provide_data():
     df_dict = {}
     for key in cfg.DATA_SETs:
         s_time = datetime.now()
-        df = read_data(f'PROVIDE,{key}')
+        df = read_data(f'PROVIDE,{key}') 
         df.rename(columns=_get_rename_cols(df.columns), inplace=True)
         df_dict[key] = df
         msg = f'Data Type: {key}, Size: {df.shape}, pTime: {datetime.now()-s_time}'
         print(msg)
-    return df_dict
+    return df_dict 
 
 def get_merged_data(mode='BATCH', **kwargs):
     df_dict = {}

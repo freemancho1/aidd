@@ -8,7 +8,7 @@ DATA_PC_TYPE = ['ALL', '1', 'N1']
 # 갯 수로 데이터를 구분할 컬럼 지정
 PC_COL = 'POLE_CNT'
 
-# 모델링 데이터 타입
+# 모델링 데이터 타입 
 DATA_MD_TYPE = ['TRAIN_X', 'TEST_X', 'TRAIN_y', 'TEST_y']
 
 # 데이터 기본 경로
@@ -28,7 +28,7 @@ FILE_NAMEs = {
     'PP': {
         name: f'STEP0{idx+2}_PP_{name}.CSV' \
             for idx, name in enumerate(DATA_SETs)
-    }, 
+    },  
     'ONLINE': 'STEP06_ONLINE.CSV',  # 전처리된 시험용 최종 데이터
     'SCALING': {
         'X': {name: f'STEP07_X_{name}.CSV' for name in DATA_PC_TYPE},
@@ -52,7 +52,7 @@ FILE_NAMEs = {
 }
 
 # 학습 데이터 제약조건
-CONSTRAINTS = {
+CONSTRAINTs = {
     'ACC_TYPE_NAME'         : '신설(상용/임시)',
     'MAX_CONT_CAP'          : 50,
     'CONS_TYPE_CD'          : 2,
@@ -63,13 +63,13 @@ CONSTRAINTS = {
     'MAX_LINE_CNT'          : 11
 }
 
-# Online/Batch 테스트 공사번호
-# 전주와 전선은 모두 1~10개 사이이고, 인입선은 제약이 없기 때문에,
-# 마지막 데이터는 인입선이 없는 데이터를 샘플로 함.
-CHECK_CONS_IDS = ['477420204194', '474620226651', '475920223725']
+## Online/Batch 테스트 공사번호
+## 전주와 전선은 모두 1~10개 사이이고, 인입선은 제약이 없기 때문에,
+## 마지막 데이터는 인입선이 없는 데이터를 샘플로 함.
+CHECK_CONS_IDs = ['477420204194', '474620226651', '475920223725']
 
-# 다양하게 사용될 컬럼들
-COLS = {
+## 다양하게 사용될 컬럼들
+COLs = {
     # 타겟 컬럼
     'TARGET': 'TOTAL_CONS_COST', 
     # 예측결과 리턴할 항목 리스트(현재 사용하지 않음)

@@ -5,7 +5,7 @@ import sys
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from datetime import datetime
-from sklearn.exceptions import DataConversionWarning
+from sklearn.exceptions import DataConversionWarning, ConvergenceWarning
 
 import aidd.sys.config as cfg
 import aidd.sys.messages as msg
@@ -24,6 +24,12 @@ class AiddInit:
         # 일반적으로는 잡는 것을 권하지만, 
         # 데이터 양이 많은 경우 정상적으로 처리된 경우에도 발생할 수 있음
         warnings.filterwarnings(action='ignore', category=DataConversionWarning)
+        
+        # scikit-learn의 알고리즘이 기본옵션의 반복횟수에서 최적의 성능을 나타내지
+        # 못했다는걸 말하는데, 일반적으로 이런 경우 'max_iter' 옵션값을 높여주는
+        # 방법을 사용하지만, 그 값을 올려도 안되는 경우가 만음.
+        # max_iter를 높이면 처리시간에 영향을 주기 때문에 일단 무시.
+        warnings.filterwarnings(action='ignore', category=ConvergenceWarning)
         
 
 class PltInit:

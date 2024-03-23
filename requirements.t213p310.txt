@@ -40,3 +40,8 @@ pyproj          # GIS
 torch
 transformers
 shap
+
+# Flask Web Service
+Flask
+Flask-RESTful
+tornado

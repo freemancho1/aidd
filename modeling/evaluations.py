@@ -14,7 +14,7 @@ def user_mape(y, p):
         (_y, _p) = (max_value, p[i]+max_value) if y[i]<1 else (y[i], p[i])
         umape += abs((_y-_p)/_y)
     umape = umape / data_size
-    return umape[0]
+    return umape
 
 def regression_evals(y, p, verbose=1):
     # Numpy 자체 버그해결을 목적으로 모든 값을 소숫점 5자리에서 반올림
