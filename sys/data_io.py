@@ -44,15 +44,15 @@ def get_provide_data():
     return data
 
 def get_merged_data():
-    logs = Logs('GET_MERGED_DATA')
+    # logs = Logs('GET_MERGED_DATA')
     data = {}
     for key in cfg.DATA_SETs:
-        start_time = datetime.now()
+        # start_time = datetime.now()
         df = read_data(f'MERGE,BATCH,{key}')
         data[key] = df
-        value = f'크기{df.shape}, 처리시간({datetime.now()-start_time})'
-        logs.mid(dcode=key, value=value)
-    logs.stop()
+        # value = f'크기{df.shape}, 처리시간({datetime.now()-start_time})'
+        # logs.mid(dcode=key, value=value)
+    # logs.stop()
     return data
 
 def _get_file_path(fcode=None):

@@ -2,15 +2,14 @@ import pandas as pd
 from flask import request, jsonify
 from flask.views import MethodView
 
-from aidd.serving.service import ServiceManager
+from aidd.serving.service.service_manager import ServiceManager
 
 sm = ServiceManager()
 
 
 class Predict(MethodView):
+    
     def post(self):
-        print('요청 접수')
-        print(f'최대 요청 컨텐츠 길이: {request.max_content_length}')
         data = request.json
         
         # print(data['BASIC']['OFFICE_NAME'])
@@ -34,3 +33,4 @@ class Predict(MethodView):
             jdata[key]['BASIC']['ACC_NO'] = basic['ACC_NO']
         df = pd.DataFrame()
         return jdata, df
+    

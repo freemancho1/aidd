@@ -112,34 +112,34 @@ COLs = {
     'PP': {
         'CONS': {
             'SOURCE': [
-                'CONS_ID', 'TOTAL_CONS_COST', 'CONS_TYPE_CD', 
-                'LAST_MOD_DATE', 'LAST_MOD_EID', 
+                'CONS_ID', 'TOTAL_CONS_COST',  
+                'LAST_MOD_DATE', 
                 'OFFICE_NAME', 'CONT_CAP', 'ACC_TYPE_NAME' 
             ],
             'PP': [
                 'CONS_ID', 'TOTAL_CONS_COST', 'LAST_MOD_DATE', 
-                'LAST_MOD_EID', 'OFFICE_NAME', 'CONT_CAP',
+                'OFFICE_NAME', 'CONT_CAP',
                 'YEAR', 'MONTH', 'DAY', 'DAYOFWEEK', 'DAYOFYEAR', 'YEAR_MONTH',
-                'EID_NUMBER', 'OFFICE_NUMBER',
+                'OFFICE_NUMBER',
             ],
         },
         'POLE': {
             'SOURCE': [
-                'CONS_ID', 'COMP_ID',
+                'CONS_ID', 
                 'POLE_SHAPE_CD', 'POLE_TYPE_CD', 'POLE_SPEC_CD',
                 'COORDINATE'    
             ],
         },
         'LINE': {
             'SOURCE': [
-                'CONS_ID', 'COMP_ID', 'FROM_COMP_ID',
+                'CONS_ID', 
                 'WIRING_SCHEME', 'LINE_TYPE_CD', 'LINE_SPEC_CD', 'LINE_PHASE_CD',
-                'SPAN', 'NEUTRAL_TYPE_CD', 'NEUTRAL_SPEC_CD', 'COORDINATE'
+                'SPAN', 'NEUTRAL_TYPE_CD', 'NEUTRAL_SPEC_CD'
             ], 
         },
         'SL': {
             'SOURCE': [
-                'CONS_ID', 'COMP_ID', 'SL_TYPE_CD', 'SL_SPEC_CD', 'SPAN', 'SUPERVISOR'
+                'CONS_ID', 'SL_TYPE_CD', 'SL_SPEC_CD', 'SPAN', 'SUPERVISOR'
             ],
         }
     },

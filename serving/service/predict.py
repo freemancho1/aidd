@@ -1,24 +1,23 @@
-import pandas as pd
-
 import aidd.sys.config as cfg
-from aidd.sys.utils import Logs
+import aidd.sys.messages as msg
 from aidd.sys.data_io import read_data
 
-class Service:
+
+class Predict:
     def __init__(self):
-        self.mr_pkl = {     # modeling result pickle[scaler, model]
-            pckey: {
-                'SCALER': read_data(f'DUMP,SCALER,{pckey}'),
-                'MODEL': read_data(f'DUMP,MODELS,{pckey},BEST'),
-            } for pckey in cfg.PC_TYPEs
+        self.model = {
+            pckey: read_data(f'DUMP,MODELS,{pckey},BEST') \
+                for pckey in cfg.PC_TYPEs
         }
-        # t_cols : training columns
-        self.t_cols = read_data(fcode='DUMP,MODELING_COLS')
-        print('예측서비스 준비 완료')
-      
-    def predict(self):  
+        self.scaler = {
+            pckey: read_data(f'DUMP,SCALER,{pckey}') \
+                for pckey in cfg.PC_TYPEs
+        }
+        self.training_cols = read_data('DUMP,MODELING_COLS')
+        print(msg.SYS['PREDICTION_SERVICE_READY'])
+        
+    def predict(self):
     # def predict(self, service_df):
-        print('예측서비스 수행')
         # df = service_df
         # r_df = df[['CONS_ID', 'TOTAL_CONS_COST']].copy()
         # r_tcc = []  # r_tcc: result total cons cost
@@ -47,16 +46,3 @@ class Service:
         # r_df.loc[:, ['PCKEY_TCC', 'ALL_TCC']] = r_tcc
         # return r_df
         return 'Okkkkkkkkk'
-    
-
-class ServiceManager:
-    _instance = None
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(ServiceManager, cls).__new__(cls)
-            cls._instance._service = Service()
-            print('서비스 메니저 시작')
-        return cls._instance
-    
-    def get_service(cls):
-        return cls._service

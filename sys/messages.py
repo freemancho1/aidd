@@ -1,3 +1,10 @@
+# 시스템 메시지
+SYS = {
+    'WEB_SERVICE_COMPLETED': 'The web service has completed. Please access http://localhost:',
+    'PREDICTION_SERVICE_READY': 'The AI-based construction cost prediction service is ready.',
+    'START_SERVICE_MANAGER': 'The service manager for the web service has started.',
+}
+
 EXCEPIONs = {
     # 시스템 오류
     'EXCEPTION_ERR': '예외처리 과정에서 에러가 발생했습니다.',

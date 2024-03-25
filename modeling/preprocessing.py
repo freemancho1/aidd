@@ -39,13 +39,12 @@ class Preprocessing:
         key = cfg.DATA_SETs[0]
         df = self.pdict[key]
         # (전주/전선 수를 제외한) 공사비 데이터 부분에서 학습 대상 레코드 조건
-        # * 접수종류명(ACC_TYPE_NAME), 계약전력(CONT_CAP),
-        # * 공사형태코드(CONS_TYPE_CD), 총공사비(TOTAL_CONS_COST)
+        # * 접수종류명(ACC_TYPE_NAME), 계약전력(CONT_CAP), 총공사비(TOTAL_CONS_COST)
         modeling_recs = \
             (df.ACC_TYPE_NAME  == cfg.CONSTRAINTs['ACC_TYPE_NAME']) & \
             (df.CONT_CAP        < cfg.CONSTRAINTs['MAX_CONT_CAP']) & \
-            (df.CONS_TYPE_CD   == cfg.CONSTRAINTs['CONS_TYPE_CD']) & \
             (df.TOTAL_CONS_COST < cfg.CONSTRAINTs['MAX_TOTAL_CONS_COST'])
+            # (df.CONS_TYPE_CD   == cfg.CONSTRAINTs['CONS_TYPE_CD']) & \
         df = df[modeling_recs].reset_index(drop=True)
         cons_df = df[cfg.COLs['PP'][key]['SOURCE']]
         self.ppdict[key] = cons_df
@@ -88,11 +87,12 @@ class Preprocessing:
         df['DAYOFYEAR'] = df.LAST_MOD_DATE.dt.dayofyear
         df['YEAR_MONTH'] = df.LAST_MOD_DATE.dt.strftime("%Y%m").astype(int)
         
-        # 사번정보 처리
-        # '최종변경자사번(LAST_MOD_EID)'만 사용(최초등록자==최종변경자사번)
-        df['EID_NUMBER'] = df.LAST_MOD_EID.apply(
-            lambda x: re.findall(r'\d+', x)[0]
-        ).astype(int)
+        # 접수시점에 설계자 정보를 알 수 없기 때문에 모델링에서 제거
+        # # 사번정보 처리
+        # # '최종변경자사번(LAST_MOD_EID)'만 사용(최초등록자==최종변경자사번)
+        # df['EID_NUMBER'] = df.LAST_MOD_EID.apply(
+        #     lambda x: re.findall(r'\d+', x)[0]
+        # ).astype(int)
         
         # 사업소명 숫자로 변환
         # 모델학습 만을 생각하면 rank()함수를 사용할 수 있지만, 
