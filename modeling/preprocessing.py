@@ -300,13 +300,14 @@ class Preprocessing:
         for cid in unique_cons_ids:
             _df = df[df.CONS_ID==cid]
             sl_sums = _df[sum_cols].sum().values.tolist()
-            sl_comp_id_cnt = _df.COMP_ID.nunique()
+            # sl_comp_id_cnt = _df.COMP_ID.nunique()
             cons_id_sl_sums.append(
-                [cid, sl_comp_id_cnt, _df.shape[0]] + sl_sums)
+                [cid, _df.shape[0]] + sl_sums)
+                # [cid, sl_comp_id_cnt, _df.shape[0]] + sl_sums)
         # 데이터프레임 만들기
         sl_sums_df = pd.DataFrame(
             cons_id_sl_sums, 
-            columns=['CONS_ID', 'SL_COMP_ID_CNT', 'REAL_SL_CNT', 'SL_SPAN_SUM'] \
+            columns=['CONS_ID', 'REAL_SL_CNT', 'SL_SPAN_SUM'] \
                 + sum_cols[1:]
         )
         

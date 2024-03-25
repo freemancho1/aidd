@@ -33,7 +33,7 @@ class Scaling:
         # TARGET 컬럼 지정
         target_col = cfg.COLs['TARGET']
         # 학습 컬럼 지정
-        training_cols = df.columns[5:].tolist()
+        training_cols = df.columns[4:].tolist()
         # 모델링 컬럼정보 저장
         save_data(training_cols, fcode='DUMP,MODELING_COLS')
         

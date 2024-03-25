@@ -23,7 +23,6 @@ def json_to_df(data):
         for k in cfg.DATA_SETs[1:]:
             df_dict[key][k] = \
                 eval(f'_make_{k.lower()}_df(value, cons_id)')
-            
     return json.dumps(json_dict, ensure_ascii=False), df_dict
 
 # 병합된 데이터를 이용해 웹에서 공사비 예측을 요청할 수 있는 JSON 데이터 생성
@@ -78,9 +77,7 @@ def _make_basic(df):
     df = df.rename(columns={
         'CONS_ID': 'ACC_NO', 'LAST_MOD_DATE': 'ACC_DATE',
     })
-    df.drop(columns=[
-        'CONS_TYPE_CD', 'LAST_MOD_EID', 'TOTAL_CONS_COST'
-    ], inplace=True)
+    df.drop(columns=['TOTAL_CONS_COST'], inplace=True)
     dict = df.to_dict(orient='index')
     return list(dict.values())[0]
 
@@ -88,18 +85,16 @@ def _make_pole(df, key):
     df[['GEO_X', 'GEO_Y', 'TEMP1', 'TEMP2']] = \
         df.COORDINATE.str.split(',', expand=True)
     df = df.drop(columns=([
-        'TEMP1', 'TEMP2', 'COORDINATE', 'COMP_ID', 'CONS_ID'
+        'TEMP1', 'TEMP2', 'COORDINATE', 'CONS_ID'
     ]))
     return _make_df_to_json(df, key)
 
 def _make_line(df, key):
-    df = df.drop(columns=([
-        'COMP_ID', 'CONS_ID', 'COORDINATE', 'FROM_COMP_ID'
-    ]))
+    df = df.drop(columns=(['CONS_ID']))
     return _make_df_to_json(df, key)
 
 def _make_sl(df, key):
-    df = df.drop(columns=(['COMP_ID', 'CONS_ID']))
+    df = df.drop(columns=(['CONS_ID']))
     return _make_df_to_json(df, key)
 
 def _make_df_to_json(df, key):
@@ -118,7 +113,7 @@ def _make_cons_df(value, super_basic):
     js['BASIC'].update({
         'ACC_NO': super_basic['ACC_NO'], 
     })
-    cdict = js['BASIC']
+    cdict = js['BASIC'].copy()
     cdict.update({
         'LAST_MOD_DATE': super_basic['ACC_DATE'],
         'OFFICE_NAME': super_basic['OFFICE_NAME'],

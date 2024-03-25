@@ -1,3 +1,6 @@
+
+from aidd.sys.utils import AiddInit as aidd_init
+from aidd.sys.argvs import modeling_argvs
 from aidd.sys.utils import Logs, AiddException
 from aidd.sys.data_io import get_provide_data, get_merged_data
 from aidd.modeling.preprocessing import Preprocessing
@@ -20,3 +23,8 @@ def main(is_skip_gpd=False):    # gpd: get provide data
         print(f'Error:\n{ae}')
     finally:
         logs.stop()
+        
+if __name__ == '__main__':
+    aidd_init()
+    args = modeling_argvs()
+    main(is_skip_gpd=args.skip_gpd)
