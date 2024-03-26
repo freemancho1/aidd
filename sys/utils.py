@@ -99,9 +99,9 @@ class Logs:
     # 중첩 로그의 깊이를 저장하는 정형변수
     depth = -1
     
-    def __init__(self, code='NONE'):
+    def __init__(self, code='NONE', is_disp=True):
         self.uuid = str(uuid.uuid4()).split('-')[-1]
-        self.is_log_display = cfg.IS_LOG_DISPLAY
+        self.is_log_display = cfg.IS_LOG_DISPLAY and is_disp
         self.start_time = datetime.now()
         self.code = code
         self.msg = msg.LOGs['MAIN'][code]

@@ -14,7 +14,6 @@ class Predict(MethodView):
         try:
             data = request.json
             jdict, ddict = json_to_df(data)
-            print(f'++++++++\n{ddict}')
             pred = sm.get_predict().predict(ddict)
             print(pred)
             # print(data['BASIC']['OFFICE_NAME'])

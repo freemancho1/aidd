@@ -3,9 +3,10 @@ import pandas as pd
 import aidd.sys.config as cfg
 import aidd.sys.messages as msg
 from aidd.sys.data_io import read_data
+from aidd.modeling.preprocessing import Preprocessing
 
 
-class Predict:
+class Predict: 
     def __init__(self):
         self.model = {
             pckey: read_data(f'DUMP,MODELS,{pckey},BEST') \
@@ -19,32 +20,42 @@ class Predict:
         print(msg.SYS['PREDICTION_SERVICE_READY'])
         
     def predict(self, service_dict):
-        # service_dict에는 3개의 딕셔너리가 있고 이걸 돌려야함
-        # 이 아래부분에서 에러 발생함......
-        df = service_dict
-        r_df = df[['CONS_ID', 'TOTAL_CONS_COST']].copy()
-        r_tcc = []  # r_tcc: result total cons cost
-        X = df[self.t_cols]
-        
-        for _, row in X.iterrows():
-            row_df = pd.DataFrame(row).transpose()
-            # 인덱스 초기화: row_df의 첫 row의 인덱스를 '0'으로 통일
-            row_df.reset_index(drop=True, inplace=True)
-            # 각 row별로 pckey 저장
-            pckey = row_df.loc[0, cfg.PC_COL].astype(int)
-            # 각 전주 갯 수 별 스케일러와 해당 갯 수의 최고 메델 가져오기
-            if pckey == 1:
-                scaler = self.mr_pkl['1']['SCALER']
-                model = self.mr_pkl['1']['MODEL']
-            else:
-                scaler = self.mr_pkl['N1']['SCALER']
-                model = self.mr_pkl['N1']['MODEL']
-            # 전체 데이터에 대한 스케일러와 최고 모델 가져오기
-            a_scaler = self.mr_pkl['ALL']['SCALER']
-            a_model = self.mr_pkl['ALL']['MODEL']
-            
-            pred = model.predict(scaler.transform(row_df))[0]
-            a_pred = a_model.predict(a_scaler.transform(row_df))[0]
-            r_tcc.append([pred, a_pred])
-        r_df.loc[:, ['PCKEY_TCC', 'ALL_TCC']] = r_tcc
-        return r_df
+        data_dict = self._online_preprocessing(service_dict)
+        r_dict = {}
+        for dkey in data_dict.keys():
+            s_df = data_dict[dkey].copy()
+            X = s_df[self.training_cols].reset_index(drop=True)
+            r_dict[dkey] = { 
+                'CONS_ID': s_df.loc[0, 'CONS_ID'],
+                'TOTAL_CONS_COST': s_df.loc[0, 'TOTAL_CONS_COST'],
+            }
+            pckey = X.loc[0, cfg.PC_COL].astype(int)
+            scaler = self.scaler['1'] if pckey==1 else self.scaler['N1']
+            model = self.model['1'] if pckey==1 else self.model['N1']
+            # 전주 수에 따라 분할된 모델로 예측한 결과
+            print(X.shape, X)
+            # 컬럼에 NaN이 있는 컬럼 출력
+            print('+++++++++')
+            print(X.columns[X.isnull().any()].tolist())
+            x_scaler = scaler.transform(X)
+            pred1 = model.predict(x_scaler)[0]
+            # pred1 = model.predict(scaler.transform(X))[0]
+            # 전체 데이터로 모델 예측한 결과
+            pred2 = self.model['ALL'].predict(self.scaler['ALL'].transform(X))[0]
+            r_dict[dkey].update({'PRED1': pred1, 'PRED2': pred2})
+        return r_dict
+    
+    def _online_preprocessing(self, s_dict):
+        # 공사비 예측을 위한 입력데이터에서 모델 예측에 필요한 컬럼만 추출
+        d_dict = {} # 모델링에 필요한 컬럼만 추출한 각 설비 데이터
+        p_dict = {} # 모델링에 사용할 전처리 데이터
+        for pn_key in s_dict.keys():
+            d_dict[pn_key] = {}
+            for f_key in s_dict[pn_key].keys():
+                d_dict[pn_key][f_key] = \
+                    s_dict[pn_key][f_key][cfg.COLs['PP'][f_key]['SOURCE']]
+            pp = Preprocessing(
+                d_dict[pn_key], is_modeling=False, is_preparation=False
+            )
+            p_dict[pn_key] = pp.ppdf
+        return p_dict

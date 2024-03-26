@@ -9,7 +9,7 @@ from aidd.sys.data_io import read_data, save_data
 
 class Preprocessing:
     def __init__(self, data, is_modeling=True, is_preparation=True):
-        self._logs = Logs('PP')
+        self._logs = Logs('PP', is_disp=is_modeling)
         # 제공받은 데이터(서비스에도 동일하게 들어옴)
         self.pdict = data   # provided data dictionary
         self.is_modeling = is_modeling
@@ -34,7 +34,7 @@ class Preprocessing:
         self._logs.stop()
         
     def _preparation_data(self):
-        logs = Logs('PREPARATION')
+        logs = Logs('PREPARATION', is_disp=self.is_modeling)
         # 공사비 데이터 학습대상 레코드 추출
         key = cfg.DATA_SETs[0]
         df = self.pdict[key]
@@ -68,8 +68,8 @@ class Preprocessing:
 
     def _cons(self):
         dt = 'CONS'     # 처리할 데이터 타입(dt)
-        logs = Logs(f'PP_{dt}')
-        df = self.ppdict[dt]
+        logs = Logs(f'PP_{dt}', is_disp=self.is_modeling)
+        df = self.ppdict[dt].copy()
         logs.mid('SOURCE', df.shape)
         
         # 결측치 처리
@@ -118,12 +118,12 @@ class Preprocessing:
         logs.stop()
 
     def _compute_and_check_facilities_count(self):
-        logs = Logs('PP_COMPUTE')
-        ppdf = self.ppdf
+        logs = Logs('PP_COMPUTE', is_disp=self.is_modeling)
+        ppdf = self.ppdf.copy()
         # 공사비까지 전처리된 데이터 셋에 설비 갯 수 컬럼 추가(3개)
         # 공사비 데이터 셋은 처리하지 않아도 됨
         for key in cfg.DATA_SETs[1:]:
-            df = self.ppdict[key]
+            df = self.ppdict[key].copy()
             cons_ids_cnt = df.CONS_ID.value_counts()
             col_name = f'{key}_CNT'
             ppdf = pd.merge(
@@ -149,8 +149,8 @@ class Preprocessing:
         
     def _pole(self):
         dt = 'POLE'     # 처리할 데이터 타입(dt)
-        logs = Logs(f'PP_{dt}')
-        df = self.ppdict[dt]
+        logs = Logs(f'PP_{dt}', is_disp=self.is_modeling)
+        df = self.ppdict[dt].copy()
         logs.mid('SOURCE', df.shape)
         
         # 결측치 처리
@@ -204,8 +204,8 @@ class Preprocessing:
         
     def _line(self):
         dt = 'LINE'     # 처리할 데이터 타입(dt)
-        logs = Logs(f'PP_{dt}')
-        df = self.ppdict[dt]
+        logs = Logs(f'PP_{dt}', is_disp=self.is_modeling)
+        df = self.ppdict[dt].copy()
         logs.mid('SOURCE', df.shape)        
         
         # 숫자형 값 통일(실수형이 아닌 값을 실수형으로 변환)
@@ -267,8 +267,8 @@ class Preprocessing:
 
     def _sl(self):
         dt = 'SL'     # 처리할 데이터 타입(dt)
-        logs = Logs(f'PP_{dt}')
-        df = self.ppdict[dt]
+        logs = Logs(f'PP_{dt}', is_disp=self.is_modeling)
+        df = self.ppdict[dt].copy()
         logs.mid('SOURCE', df.shape)    
         
         # 숫자형 값 통일(실수형이 아닌 값을 실수형으로 변환)
@@ -325,6 +325,9 @@ class Preprocessing:
         # 최종 완료시점에서 NaN값을 0으로 처리
         # 온라인 작업 시 인입선이 없거나 전주가 없는 작업 등에서 NaN가 올 수 있음
         self.ppdf.fillna(0, inplace=True)
+        print('----+++++++++++')
+        print(self.ppdf.columns[self.ppdf.isnull().any()].tolist())
+        print(f'++ {self.ppdf.iloc[:, "LINE_TYPE_35.0"]}')
         # 모델링 시점과 서비스 시점의 데이터프레임 컬럼 순서를 동일하게 하기 위해
         # 모델링 시점의 컬럼 순서를 저장해 서비스 시점에서 컬럼 순서를 재배치
         # One-Hot Encoding시점에 데이터 컬럼의 순서가 변경될 수 있음.

@@ -15,7 +15,7 @@ CONSTRAINTs = {
     'MAX_POLE_CNT'          : 10,
     'MIN_LINE_CNT'          : 1,
     'MAX_LINE_CNT'          : 11
-}
+} 
 
 ## 학습에 사용할 데이터 셋 종류
 DATA_SETs = ['CONS', 'POLE', 'LINE', 'SL']
