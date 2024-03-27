@@ -327,7 +327,7 @@ class Preprocessing:
         self.ppdf.fillna(0, inplace=True)
         print('----+++++++++++')
         print(self.ppdf.columns[self.ppdf.isnull().any()].tolist())
-        print(f'++ {self.ppdf.iloc[:, "LINE_TYPE_35.0"]}')
+        print(f'++ {self.ppdf["LINE_TYPE_35.0"]}')
         # 모델링 시점과 서비스 시점의 데이터프레임 컬럼 순서를 동일하게 하기 위해
         # 모델링 시점의 컬럼 순서를 저장해 서비스 시점에서 컬럼 순서를 재배치
         # One-Hot Encoding시점에 데이터 컬럼의 순서가 변경될 수 있음.
