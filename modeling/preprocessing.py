@@ -115,6 +115,7 @@ class Preprocessing:
         logs.mid('RESULT', df.shape)
         
         self.ppdf = df
+        print(f'+++ CONS: {[x for x in self.ppdf.columns]}')
         logs.stop()
 
     def _compute_and_check_facilities_count(self):
@@ -136,6 +137,7 @@ class Preprocessing:
         
         # 모델 학습에 사용할 레코드 추출
         # * 전주/전선 갯 수가 10개 이상인 경우 
+        # * 인입선 갯 수가 1개 인 경우 ++++++++++++++++++++
         modeling_recs = \
             (ppdf.POLE_CNT >= cfg.CONSTRAINTs['MIN_POLE_CNT']) & \
             (ppdf.POLE_CNT <= cfg.CONSTRAINTs['MAX_POLE_CNT']) & \
@@ -145,6 +147,7 @@ class Preprocessing:
         logs.mid('RESULT', ppdf.shape)
         
         self.ppdf = ppdf
+        print(f'+++ CNTS: {[x for x in self.ppdf.columns]}')
         logs.stop()
         
     def _pole(self):
@@ -200,6 +203,7 @@ class Preprocessing:
         logs.mid('RESULT', ppdf.shape)
         
         self.ppdf = ppdf
+        print(f'+++ POLE: {[x for x in self.ppdf.columns]}')
         logs.stop()
         
     def _line(self):
@@ -248,7 +252,9 @@ class Preprocessing:
         # 공사비별 전선 데이터 합산
         unique_cons_ids = df.CONS_ID.unique()
         cons_id_line_sums = []
-        sum_cols = ['SPAN'] + df.columns.tolist()[5:]
+        # 서비스시에는 1 컬럼부터 'SPAN'임, 모델링시 체크 필요
+        sum_cols = df.columns.tolist()[1:]
+        # sum_cols = ['SPAN'] + df.columns.tolist()[5:]
         for cid in unique_cons_ids:
             cons_id_line_sums.append(
                 [cid]+df[df.CONS_ID==cid][sum_cols].sum().values.tolist())
@@ -263,6 +269,7 @@ class Preprocessing:
         logs.mid('RESULT', ppdf.shape)
         
         self.ppdf = ppdf
+        print(f'+++ LINE: {[x for x in self.ppdf.columns]}')
         logs.stop()
 
     def _sl(self):
@@ -296,7 +303,9 @@ class Preprocessing:
         # 공사비별 인입선 데이터 합산
         unique_cons_ids = df.CONS_ID.unique()
         cons_id_sl_sums = []
-        sum_cols = df.columns.tolist()[2:]
+        # Service시 1 컬럼부터 'SPAN'임 (모델링시 체크 필요)
+        sum_cols = df.columns.tolist()[1:]
+        # sum_cols = df.columns.tolist()[2:]
         for cid in unique_cons_ids:
             _df = df[df.CONS_ID==cid]
             sl_sums = _df[sum_cols].sum().values.tolist()
@@ -319,15 +328,13 @@ class Preprocessing:
         logs.mid('RESULT', ppdf.shape)
         
         self.ppdf = ppdf
+        print(f'+++ SL: {[x for x in self.ppdf.columns]}')
         logs.stop()
 
     def _pp_to_organize(self):
         # 최종 완료시점에서 NaN값을 0으로 처리
         # 온라인 작업 시 인입선이 없거나 전주가 없는 작업 등에서 NaN가 올 수 있음
         self.ppdf.fillna(0, inplace=True)
-        print('----+++++++++++')
-        print(self.ppdf.columns[self.ppdf.isnull().any()].tolist())
-        print(f'++ {self.ppdf["LINE_TYPE_35.0"]}')
         # 모델링 시점과 서비스 시점의 데이터프레임 컬럼 순서를 동일하게 하기 위해
         # 모델링 시점의 컬럼 순서를 저장해 서비스 시점에서 컬럼 순서를 재배치
         # One-Hot Encoding시점에 데이터 컬럼의 순서가 변경될 수 있음.
@@ -337,5 +344,7 @@ class Preprocessing:
         else:
             last_pp_cols = read_data('DUMP,LAST_PP_COLS')
             self.ppdf = self.ppdf.reindex(columns=last_pp_cols)
+            
+        print(f'+++ LAST: {[x for x in self.ppdf.columns]}')
 
 

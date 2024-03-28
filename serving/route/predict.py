@@ -15,7 +15,7 @@ class Predict(MethodView):
             data = request.json
             jdict, ddict = json_to_df(data)
             pred = sm.get_predict().predict(ddict)
-            print(pred)
+            print('++ route/predict')
             # print(data['BASIC']['OFFICE_NAME'])
             
             # if data and 'name' in data: 

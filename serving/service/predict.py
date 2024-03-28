@@ -23,6 +23,7 @@ class Predict:
         data_dict = self._online_preprocessing(service_dict)
         r_dict = {}
         for dkey in data_dict.keys():
+            print(f'== {data_dict[dkey].loc[:, ["WIRING_SCHEME_OW", "LINE_TYPE_22.0"]]}')
             s_df = data_dict[dkey].copy()
             X = s_df[self.training_cols].reset_index(drop=True)
             r_dict[dkey] = { 
@@ -35,7 +36,8 @@ class Predict:
             # 전주 수에 따라 분할된 모델로 예측한 결과
             print(X.shape, X)
             # 컬럼에 NaN이 있는 컬럼 출력
-            print('+++++++++')
+            print('++ service/predict')
+            # print(f'-- service/predict: {X.loc[0, ["WIRING_SCHEME_OW", "LINE_TYPE_22.0"]]}')
             print(X.columns[X.isnull().any()].tolist())
             x_scaler = scaler.transform(X)
             pred1 = model.predict(x_scaler)[0]
