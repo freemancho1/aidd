@@ -28,7 +28,7 @@ def save_data(data=None, fcode=None, **kwargs):
         # 데이터프레임 저장 시 인덱스를 저장하지 않음
         if 'index' not in kwargs:
             kwargs['index'] = False
-        data.to_csv(fpath, **kwargs)
+        data.to_csv(fpath, **kwargs) 
         
 def get_provide_data():
     logs = Logs('GET_PROVIDE_DATA')
